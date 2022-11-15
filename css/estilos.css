@@ -102,6 +102,10 @@ form input:focus, textarea:focus {
     background-color: #DE5849!important;
 }
 
+.fondo-verde {
+    background-color: #77C348!important;
+}
+
 .color-texto-blanco {
     color: white;
 }
@@ -132,5 +136,10 @@ form input:focus, textarea:focus {
 @media (max-width: 991.98px) {
     .altura-carta-inicio {
         height: 200px!important;
+    }
+
+    #repartidores button {
+        margin-right: 0!important;
+        margin-top: 1rem!important;
     }
 }

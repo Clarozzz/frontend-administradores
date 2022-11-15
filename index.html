@@ -68,21 +68,23 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <div role="button"
-                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra">
+                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra"
+                        onclick="verEmpresasProductos()">
                         <img src="img/productos.png" alt="" width="25%" class="mx-auto mt-3">
                         <h3 class="text-center texto-grande mt-3">Productos</h3>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div role="button"
-                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra">
+                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra"
+                        onclick="verRepartidores()">
                         <img src="img/repartidorIcono.png" alt="" width="25%" class="mx-auto mt-3">
                         <h3 class="text-center texto-grande mt-3">Repartidores</h3>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div role="button"
-                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra">
+                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra" onclick="verOrdenes()">
                         <img src="img/orden.png" alt="" width="25%" class="mx-auto mt-3">
                         <h3 class="text-center texto-grande mt-3">Ordenes</h3>
                     </div>
@@ -102,7 +104,8 @@
         </div>
 
         <div class="text-center">
-            <button id="agregarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="agregarEmpresa()">Agregar empresa</button>
+            <button id="agregarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
+                onclick="agregarEmpresa()">Agregar empresa</button>
         </div>
     </main>
 
@@ -110,11 +113,12 @@
         <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAEmpresas()"></i>
 
         <div id="cartaEmpresa" class="d-flex justify-content-center mt-3 mx-4">
-            
+
         </div>
 
         <div class="text-center">
-            <button id="btnEditarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="editarEmpresa()">Editar</button>
+            <button id="btnEditarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
+                onclick="editarEmpresa()">Editar</button>
             <br>
             <button id="btnEliminarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-3">
                 Eliminar
@@ -136,14 +140,15 @@
 
                 <div class="col-md-3">
                     <label for="descripcionEmpresa" class="form-label texto-pequeno">Descripcion:</label>
-                    <textarea id="descripcionEmpresa" cols="30" rows="5" class="form-control color-inputs mb-4"></textarea>
+                    <textarea id="descripcionEmpresa" cols="30" rows="5"
+                        class="form-control color-inputs mb-4"></textarea>
                 </div>
 
                 <div class="col-md-3">
                     <label for="colorEmpresa" class="form-label texto-pequeno">Color:</label>
                     <input id="colorEmpresa" type="color" class="form-control form-control-color mb-4">
                 </div>
-                
+
                 <div class="col-md-3">
                     <label for="logoEmpresa" class="form-label texto-pequeno">Logo:</label>
                     <select id="logoEmpresa" class="form-select">
@@ -157,7 +162,8 @@
             </div>
 
             <div class="text-center">
-                <button id="btnActualizarEmpresa" type="button" class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Actualizar</button>
+                <button id="btnActualizarEmpresa" type="button"
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Actualizar</button>
             </div>
         </form>
     </main>
@@ -176,14 +182,15 @@
 
                 <div class="col-md-3">
                     <label for="descripcionEmpresaAgregar" class="form-label texto-pequeno">Descripcion:</label>
-                    <textarea id="descripcionEmpresaAgregar" cols="30" rows="5" class="form-control color-inputs mb-4"></textarea>
+                    <textarea id="descripcionEmpresaAgregar" cols="30" rows="5"
+                        class="form-control color-inputs mb-4"></textarea>
                 </div>
 
                 <div class="col-md-3">
                     <label for="colorEmpresaAgregar" class="form-label texto-pequeno">Color:</label>
                     <input id="colorEmpresaAgregar" type="color" class="form-control form-control-color mb-4">
                 </div>
-                
+
                 <div class="col-md-3">
                     <label for="logoEmpresaAgregar" class="form-label texto-pequeno">Logo:</label>
                     <select id="logoEmpresaAgregar" class="form-select">
@@ -197,9 +204,178 @@
             </div>
 
             <div class="text-center">
-                <button id="btnAgregarEmpresa" type="button" class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Agregar</button>
+                <button id="btnAgregarEmpresa" type="button"
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Agregar</button>
             </div>
         </form>
+    </main>
+
+    <main id="empresasProductos" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAAdministrar()"></i>
+        <h1 class="text-center texto-grande">Selecciona una empresa</h1>
+
+        <div class="container">
+            <div id="empresasSeleccion" class="row mt-5">
+
+            </div>
+        </div>
+
+    </main>
+
+    <main id="productosEmpresa" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAEmpresasProductos()"></i>
+        <h1 class="text-center texto-grande">Selecciona un producto</h1>
+
+        <div class="container">
+            <div id="productos" class="row mt-5">
+
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button id="agregarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
+                onclick="agregarProducto()">Agregar Producto</button>
+        </div>
+    </main>
+
+    <main id="administrarProducto" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAProductos()"></i>
+
+        <div id="cartaProducto" class="d-flex justify-content-center mt-3 mx-4">
+
+        </div>
+
+        <div class="text-center">
+            <button id="btnEditarProducto" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
+                onclick="editarProducto()">Editar</button>
+            <br>
+            <button id="btnEliminarProducto" class="btn-grande color-secundario-fondo color-texto-blanco mt-3">
+                Eliminar
+            </button>
+        </div>
+    </main>
+
+    <main id="paginaAgregarProducto" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAProductos ()"></i>
+        <h1 class="text-center texto-grande">Agregar producto</h1>
+
+        <form action="">
+            <div class="d-flex flex-column align-items-center mt-5">
+
+                <div class="col-md-3">
+                    <label for="nombreProductoAgregar" class="form-label texto-pequeno">Nombre producto:</label>
+                    <input id="nombreProductoAgregar" type="text"
+                        class="form-control form-control-lg color-inputs mb-4">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="descripcionProductoAgregar" class="form-label texto-pequeno">Descripcion:</label>
+                    <textarea id="descripcionProductoAgregar" cols="30" rows="5"
+                        class="form-control color-inputs mb-4"></textarea>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="colorProductoAgregar" class="form-label texto-pequeno">Color del borde:</label>
+                    <input id="colorProductoAgregar" type="color" class="form-control form-control-color mb-4">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="precioProductoAgregar" class="form-label texto-pequeno">Precio:</label>
+                    <input id="precioProductoAgregar" type="number" class="form-control mb-4" min="1">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="logoProductoAgregar" class="form-label texto-pequeno">Logo:</label>
+                    <select id="logoProductoAgregar" class="form-select">
+                        <option value="img/baleada.jpg">Imagen 1</option>
+                        <option value="img/cocaColaBotella.png">Imagen 2</option>
+                        <option value="img/hamburguesaSuprema.jpg">Imagen 3</option>
+                        <option value="img/pepsiBotella.jpg">Imagen 4</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="text-center">
+                <button id="btnAgregarProducto" type="button"
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Agregar</button>
+            </div>
+        </form>
+    </main>
+
+    <main id="editarProducto" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAOpcionesProducto()"></i>
+        <h1 class="text-center texto-grande">Editar producto</h1>
+
+        <form action="">
+            <div class="d-flex flex-column align-items-center mt-5">
+
+                <div class="col-md-3">
+                    <label for="nombreProductoEditar" class="form-label texto-pequeno">Nombre producto:</label>
+                    <input id="nombreProductoEditar" type="text" class="form-control form-control-lg color-inputs mb-4">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="descripcionProductoEditar" class="form-label texto-pequeno">Descripcion:</label>
+                    <textarea id="descripcionProductoEditar" cols="30" rows="5"
+                        class="form-control color-inputs mb-4"></textarea>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="colorProductoEditar" class="form-label texto-pequeno">Color del borde:</label>
+                    <input id="colorProductoEditar" type="color" class="form-control form-control-color mb-4">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="precioProductoEditar" class="form-label texto-pequeno">Precio:</label>
+                    <input id="precioProductoEditar" type="number" class="form-control mb-4" min="1">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="logoProductoEditar" class="form-label texto-pequeno">Logo:</label>
+                    <select id="logoProductoEditar" class="form-select">
+                        <option value="img/baleada.jpg">Imagen 1</option>
+                        <option value="img/cocaColaBotella.png">Imagen 2</option>
+                        <option value="img/hamburguesaSuprema.jpg">Imagen 3</option>
+                        <option value="img/pepsiBotella.jpg">Imagen 4</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="text-center">
+                <button id="btnActualizarProducto" type="button"
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Actualizar</button>
+            </div>
+        </form>
+    </main>
+
+    <main id="paginaRepartidores" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAAdministrar()"></i>
+        <h1 class="text-center texto-grande mb-5">Repartidores</h1>
+
+        <div id="repartidores" class="d-flex flex-column align-items-center mt-3 mx-4">
+
+        </div>
+
+    </main>
+
+    <main id="ordenesDisponibles" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAAdministrar()"></i>
+        <h1 class="text-center texto-grande mb-5">Ordenes disponibles</h1>
+
+        <div id="ordenes" class="d-flex flex-column align-items-center mt-3 mx-4">
+            
+        </div>
+    </main>
+
+    <main id="asignarOrden" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAOrdenesDisponibles()"></i>
+        <h1 class="text-center texto-grande mb-5">Repartidores disponibles</h1>
+
+        <div id="repartidoresDisponibles" class="d-flex flex-column align-items-center mt-3 mx-4">
+
+        </div>
     </main>
 
     <script src="js/controlador.js"></script>
