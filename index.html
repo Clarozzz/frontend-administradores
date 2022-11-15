@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteoro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="img/LogoCuadrado.png">
+    <script src="https://kit.fontawesome.com/1bdf71b464.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <nav id="navbar-inicio" class="navbar sticky-top">
+        <div class="container justify-content-center">
+            <div class="d-flex">
+                <img src="img/LogoCuadrado.png" alt="Logo" height="55" class="d-inline-block align-text-top">
+                <h1 id="encabezado-navbar" class="m-0 align-self-center">METEORO</h1>
+            </div>
+        </div>
+    </nav>
+
+    <main id="paginaInicio" class="mt-5">
+        <h1 class="text-center texto-grande">Administradores</h1>
+        <h3 class="text-center texto-mediano mt-5 mb-4">Iniciar sesion</h3>
+
+        <form action="">
+            <div class="d-flex flex-column align-items-center">
+
+                <div class="col-md-3">
+                    <label for="usuarioAdmin" class="form-label texto-pequeno">Usuario:</label>
+                    <input id="usuarioAdmin" type="text" class="form-control form-control-lg color-inputs mb-4"
+                        onkeyup="validarCampoVacio()">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="contrasenaAdmin" class="form-label texto-pequeno">Contrasena:</label>
+                    <input id="contrasenaAdmin" type="password" class="form-control form-control-lg color-inputs"
+                        onkeyup="validarCampoVacio()">
+                </div>
+
+            </div>
+
+            <div class="text-center">
+                <button id="btnSubmit" type="button" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
+                    disabled onclick="entrar()">Iniciar sesion</button>
+            </div>
+        </form>
+    </main>
+
+    <main id="paginaPrincipal" class="my-5" style="display: none;">
+        <h1 class="text-center texto-grande mb-5">Administrar</h1>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div role="button"
+                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra"
+                        onclick="verEmpresas()">
+                        <img src="img/empresas.png" alt="" width="25%" class="mx-auto mt-3">
+                        <h3 class="text-center texto-grande mt-3">Empresas</h3>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div role="button"
+                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra">
+                        <img src="img/productos.png" alt="" width="25%" class="mx-auto mt-3">
+                        <h3 class="text-center texto-grande mt-3">Productos</h3>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div role="button"
+                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra">
+                        <img src="img/repartidorIcono.png" alt="" width="25%" class="mx-auto mt-3">
+                        <h3 class="text-center texto-grande mt-3">Repartidores</h3>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div role="button"
+                        class="card altura-carta-inicio p-3 mb-4 borde-color-primario border border-4 rounded-4 sombra">
+                        <img src="img/orden.png" alt="" width="25%" class="mx-auto mt-3">
+                        <h3 class="text-center texto-grande mt-3">Ordenes</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="paginaEmpresas" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAAdministrar()"></i>
+        <h1 class="text-center texto-grande">Selecciona una empresa</h1>
+
+        <div class="container">
+            <div id="empresas" class="row mt-5">
+
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button id="agregarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="agregarEmpresa()">Agregar empresa</button>
+        </div>
+    </main>
+
+    <main id="administrarEmpresa" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAEmpresas()"></i>
+
+        <div id="cartaEmpresa" class="d-flex justify-content-center mt-3 mx-4">
+            
+        </div>
+
+        <div class="text-center">
+            <button id="btnEditarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="editarEmpresa()">Editar</button>
+            <br>
+            <button id="btnEliminarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-3">
+                Eliminar
+            </button>
+        </div>
+    </main>
+
+    <main id="editarEmpresa" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAOpcionesEmpresa()"></i>
+        <h1 class="text-center texto-grande">Editar empresa</h1>
+
+        <form action="">
+            <div class="d-flex flex-column align-items-center mt-5">
+
+                <div class="col-md-3">
+                    <label for="nombreEmpresa" class="form-label texto-pequeno">Nombre empresa:</label>
+                    <input id="nombreEmpresa" type="text" class="form-control form-control-lg color-inputs mb-4">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="descripcionEmpresa" class="form-label texto-pequeno">Descripcion:</label>
+                    <textarea id="descripcionEmpresa" cols="30" rows="5" class="form-control color-inputs mb-4"></textarea>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="colorEmpresa" class="form-label texto-pequeno">Color:</label>
+                    <input id="colorEmpresa" type="color" class="form-control form-control-color mb-4">
+                </div>
+                
+                <div class="col-md-3">
+                    <label for="logoEmpresa" class="form-label texto-pequeno">Logo:</label>
+                    <select id="logoEmpresa" class="form-select">
+                        <option value="img/bigos.jpg">Imagen 1</option>
+                        <option value="img/dunkin.jpg">Imagen 2</option>
+                        <option value="img/mcdonalds.jpg">Imagen 3</option>
+                        <option value="img/subway.jpg">Imagen 4</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="text-center">
+                <button id="btnActualizarEmpresa" type="button" class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Actualizar</button>
+            </div>
+        </form>
+    </main>
+
+    <main id="paginaAgregarEmpresa" class="my-5" style="display: none;">
+        <i role="button" class="fa-solid fa-arrow-left ms-4 texto-mediano" onclick="regresarAEmpresas()"></i>
+        <h1 class="text-center texto-grande">Agregar empresa</h1>
+
+        <form action="">
+            <div class="d-flex flex-column align-items-center mt-5">
+
+                <div class="col-md-3">
+                    <label for="nombreEmpresaAgregar" class="form-label texto-pequeno">Nombre empresa:</label>
+                    <input id="nombreEmpresaAgregar" type="text" class="form-control form-control-lg color-inputs mb-4">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="descripcionEmpresaAgregar" class="form-label texto-pequeno">Descripcion:</label>
+                    <textarea id="descripcionEmpresaAgregar" cols="30" rows="5" class="form-control color-inputs mb-4"></textarea>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="colorEmpresaAgregar" class="form-label texto-pequeno">Color:</label>
+                    <input id="colorEmpresaAgregar" type="color" class="form-control form-control-color mb-4">
+                </div>
+                
+                <div class="col-md-3">
+                    <label for="logoEmpresaAgregar" class="form-label texto-pequeno">Logo:</label>
+                    <select id="logoEmpresaAgregar" class="form-select">
+                        <option value="img/bigos.jpg">Imagen 1</option>
+                        <option value="img/dunkin.jpg">Imagen 2</option>
+                        <option value="img/mcdonalds.jpg">Imagen 3</option>
+                        <option value="img/subway.jpg">Imagen 4</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="text-center">
+                <button id="btnAgregarEmpresa" type="button" class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Agregar</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="js/controlador.js"></script>
+</body>
+
+</html>
