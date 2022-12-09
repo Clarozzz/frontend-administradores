@@ -1,31 +1,12 @@
 
-var repartidores = [
-    {
-        nombreRepartidor: 'Juan',
-        apellidoRepartidor: 'Garcia',
-        usuarioRepartidor: 'JuanG0',
-        contrasenaRepartidor: '1234'
-    },
-    {
-        nombreRepartidor: 'Maria',
-        apellidoRepartidor: 'Antunez',
-        usuarioRepartidor: 'MaryAn',
-        contrasenaRepartidor: 'contrasena'
-    },
-    {
-        nombreRepartidor: 'Peter',
-        apellidoRepartidor: 'Parker',
-        usuarioRepartidor: 'spiderMan69',
-        contrasenaRepartidor: 'esobrad'
-    }
-]
-
 var categorias;
 var productos;
 var productosEmpresa = [];
 var empresaSeleccionada;
 var productoSeleccionado;
 var categoriaSeleccionada;
+var repartidoresPendientes;
+var repartidores = [];
 
 async function obtenerEmpresas() {
     const result = await fetch('http://localhost:5005/empresas',
@@ -39,6 +20,27 @@ async function obtenerEmpresas() {
     empresas = await result.json();
 }
 obtenerEmpresas();
+
+async function obtenerRepartidoresPendientes() {
+    const result = await fetch('http://localhost:5005/repartidorespendientes', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    repartidoresPendientes = await result.json();
+}
+obtenerRepartidoresPendientes();
+
+async function obtenerRepartidores() {
+    const resutl = await fetch('http://localhost:5005/repartidores', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    repartidores = await resutl.json();
+}
 
 async function obtenerCategorias() {
     const result = await fetch('http://localhost:5005/categorias', {
@@ -522,35 +524,88 @@ function verRepartidores() {
 
     document.getElementById('repartidores').innerHTML = '';
 
-    repartidores.forEach(repartidor => {
+    repartidoresPendientes.forEach(repartidorPendiente => {
         document.getElementById('repartidores').innerHTML +=
             `
         <div class="card mb-4 borde-color-primario border border-4 rounded-4">
                 <div class="card-body">
                     <div>
                         <span class="text-muted texto-pequeno">Nombre: </span>
-                        <span class="texto-pequeno float-end">${repartidor.nombreRepartidor} ${repartidor.apellidoRepartidor}</span>
+                        <span class="texto-pequeno float-end">${repartidorPendiente.nombre} ${repartidorPendiente.apellido}</span>
                     </div>
 
                     <div>
                         <span class="text-muted texto-pequeno">Usuario: </span>
-                        <span class="texto-pequeno float-end">${repartidor.usuarioRepartidor}</span>
+                        <span class="texto-pequeno float-end">${repartidorPendiente.usuario}</span>
                     </div>
 
                     <div>
                         <span class="text-muted texto-pequeno">Contrasena: </span>
-                        <span class="texto-pequeno float-end">${repartidor.contrasenaRepartidor}</span>
+                        <span class="texto-pequeno float-end">${repartidorPendiente.contrasena}</span>
                     </div>
                     
                     <div class="text-center mt-4">
-                        <button class="btn-mediano me-4 fondo-verde color-texto-blanco">Aceptar</button>
-                        <button class="btn-mediano color-secundario-fondo color-texto-blanco">Rechazar</button>
+                        <button class="btn-mediano me-4 fondo-verde color-texto-blanco" onclick="aprobarRepartidor('${repartidorPendiente._id}')">Aceptar</button>
+                        <button class="btn-mediano color-secundario-fondo color-texto-blanco" onclick="rechazarRepartidor('${repartidorPendiente._id}')">Rechazar</button>
                     </div>
                 </div>
             </div>
         `
     })
 
+}
+
+async function aprobarRepartidor(idRepartidor) {
+    let idNvoRepartidor = repartidores.length + 1;
+    const result = await fetch(`http://localhost:5005/repartidorespendientes/${idRepartidor}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    let repartidor = await result.json();
+
+    const resultado = await fetch(`http://localhost:5005/repartidores`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idRepartidor: idNvoRepartidor,
+            nombreRepartidor: repartidor.nombre,
+            apellidoRepartidor: repartidor.apellido,
+            usuarioRepartidor: repartidor.usuario,
+            contrasenaRepartidor: repartidor.contrasena,
+            ordenesTomadas: [],
+            ordenesEntregadas: []
+        })
+    })
+
+    const resdelete = await fetch(`http://localhost:5005/repartidorespendientes/${idRepartidor}`, {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    obtenerRepartidores();
+    obtenerRepartidoresPendientes().then(() => {
+        verRepartidores();
+    })
+}
+
+async function rechazarRepartidor(idRepartidor) {
+
+    const result = await fetch(`http://localhost:5005/repartidorespendientes/${idRepartidor}`, {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    obtenerRepartidoresPendientes().then(() => {
+        verRepartidores();
+    })  
 }
 
 function verOrdenes() {
