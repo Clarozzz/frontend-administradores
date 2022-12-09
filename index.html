@@ -43,12 +43,13 @@
                     <input id="contrasenaAdmin" type="password" class="form-control form-control-lg color-inputs"
                         onkeyup="validarCampoVacio()">
                 </div>
-
+                <span id="aviso" class="mt-3" style="color: red;"></span>
             </div>
+            
 
             <div class="text-center">
                 <button id="btnSubmit" type="button" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
-                    disabled onclick="entrar()">Iniciar sesion</button>
+                    disabled onclick="abrirAdministradores()">Iniciar sesion</button>
             </div>
         </form>
     </main>
@@ -120,7 +121,7 @@
             <button id="btnEditarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
                 onclick="editarEmpresa()">Editar</button>
             <br>
-            <button id="btnEliminarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-3">
+            <button id="btnEliminarEmpresa" class="btn-grande color-secundario-fondo color-texto-blanco mt-3" onclick="eliminarEmpresa()">
                 Eliminar
             </button>
         </div>
@@ -152,10 +153,10 @@
                 <div class="col-md-3">
                     <label for="logoEmpresa" class="form-label texto-pequeno">Logo:</label>
                     <select id="logoEmpresa" class="form-select">
-                        <option value="img/bigos.jpg">Imagen 1</option>
-                        <option value="img/dunkin.jpg">Imagen 2</option>
-                        <option value="img/mcdonalds.jpg">Imagen 3</option>
-                        <option value="img/subway.jpg">Imagen 4</option>
+                        <option value="../img/bigos.jpg">Imagen 1</option>
+                        <option value="../img/dunkin.jpg">Imagen 2</option>
+                        <option value="../img/mcdonalds.jpg">Imagen 3</option>
+                        <option value="../img/subway.jpg">Imagen 4</option>
                     </select>
                 </div>
 
@@ -163,7 +164,7 @@
 
             <div class="text-center">
                 <button id="btnActualizarEmpresa" type="button"
-                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Actualizar</button>
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="actualizarEmpresa()">Actualizar</button>
             </div>
         </form>
     </main>
@@ -174,6 +175,14 @@
 
         <form action="">
             <div class="d-flex flex-column align-items-center mt-5">
+
+                <div class="col-md-3">
+                    <label for="categoriaEmpresaAgregar" class="form-label texto-pequeno">Nombre categoria:</label>
+                    <select id="categoriaEmpresaAgregar" class="form-select">
+                        <option value="638fd857398d2dc0f866593d">Restaurantes</option>
+                        <option value="638fd857398d2dc0f866593e">Bebidas</option>
+                    </select>
+                </div>
 
                 <div class="col-md-3">
                     <label for="nombreEmpresaAgregar" class="form-label texto-pequeno">Nombre empresa:</label>
@@ -194,10 +203,10 @@
                 <div class="col-md-3">
                     <label for="logoEmpresaAgregar" class="form-label texto-pequeno">Logo:</label>
                     <select id="logoEmpresaAgregar" class="form-select">
-                        <option value="img/bigos.jpg">Imagen 1</option>
-                        <option value="img/dunkin.jpg">Imagen 2</option>
-                        <option value="img/mcdonalds.jpg">Imagen 3</option>
-                        <option value="img/subway.jpg">Imagen 4</option>
+                        <option value="../img/bigos.jpg">Imagen 1</option>
+                        <option value="../img/dunkin.jpg">Imagen 2</option>
+                        <option value="../img/mcdonalds.jpg">Imagen 3</option>
+                        <option value="../img/subway.jpg">Imagen 4</option>
                     </select>
                 </div>
 
@@ -205,7 +214,7 @@
 
             <div class="text-center">
                 <button id="btnAgregarEmpresa" type="button"
-                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Agregar</button>
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="nuevaEmpresa()">Agregar</button>
             </div>
         </form>
     </main>
@@ -249,7 +258,7 @@
             <button id="btnEditarProducto" class="btn-grande color-secundario-fondo color-texto-blanco mt-5"
                 onclick="editarProducto()">Editar</button>
             <br>
-            <button id="btnEliminarProducto" class="btn-grande color-secundario-fondo color-texto-blanco mt-3">
+            <button id="btnEliminarProducto" class="btn-grande color-secundario-fondo color-texto-blanco mt-3" onclick="eliminarProducto()">
                 Eliminar
             </button>
         </div>
@@ -287,10 +296,10 @@
                 <div class="col-md-3">
                     <label for="logoProductoAgregar" class="form-label texto-pequeno">Logo:</label>
                     <select id="logoProductoAgregar" class="form-select">
-                        <option value="img/baleada.jpg">Imagen 1</option>
-                        <option value="img/cocaColaBotella.png">Imagen 2</option>
-                        <option value="img/hamburguesaSuprema.jpg">Imagen 3</option>
-                        <option value="img/pepsiBotella.jpg">Imagen 4</option>
+                        <option value="../img/baleada.jpg">Imagen 1</option>
+                        <option value="../img/cocaColaBotella.png">Imagen 2</option>
+                        <option value="../img/hamburguesaSuprema.jpg">Imagen 3</option>
+                        <option value="../img/pepsiBotella.jpg">Imagen 4</option>
                     </select>
                 </div>
 
@@ -298,7 +307,7 @@
 
             <div class="text-center">
                 <button id="btnAgregarProducto" type="button"
-                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Agregar</button>
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="nuevoProducto()">Agregar</button>
             </div>
         </form>
     </main>
@@ -334,10 +343,10 @@
                 <div class="col-md-3">
                     <label for="logoProductoEditar" class="form-label texto-pequeno">Logo:</label>
                     <select id="logoProductoEditar" class="form-select">
-                        <option value="img/baleada.jpg">Imagen 1</option>
-                        <option value="img/cocaColaBotella.png">Imagen 2</option>
-                        <option value="img/hamburguesaSuprema.jpg">Imagen 3</option>
-                        <option value="img/pepsiBotella.jpg">Imagen 4</option>
+                        <option value="../img/baleada.jpg">Imagen 1</option>
+                        <option value="../img/cocaColaBotella.png">Imagen 2</option>
+                        <option value="../img/hamburguesaSuprema.jpg">Imagen 3</option>
+                        <option value="../img/pepsiBotella.jpg">Imagen 4</option>
                     </select>
                 </div>
 
@@ -345,7 +354,7 @@
 
             <div class="text-center">
                 <button id="btnActualizarProducto" type="button"
-                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5">Actualizar</button>
+                    class="btn-grande color-secundario-fondo color-texto-blanco mt-5" onclick="actualizarProducto()">Actualizar</button>
             </div>
         </form>
     </main>

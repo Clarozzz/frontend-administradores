@@ -1,94 +1,4 @@
 
-var empresas = [
-    {
-        nombreEmpresa: 'Pizza Hut',
-        descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing.',
-        color: '#E51120',
-        logo: 'img/pizzaHut.jpg',
-        productos: [
-            {
-                nombreProducto: 'Pizza Suprema',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#E51120',
-                precio: 199,
-                image: 'img/pizzaSuprema.jpg'
-            },
-            {
-                nombreProducto: 'Pizza Regular',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#E51120',
-                precio: 150,
-                image: 'img/pizzaSuprema.jpg'
-            }
-        ]
-    },
-    {
-        nombreEmpresa: 'Pepsi',
-        descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing.',
-        color: '#4287f5',
-        logo: 'img/pepsi.jpg',
-        productos: [
-            {
-                nombreProducto: 'Pepsi 500ml',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#4287f5',
-                precio: 15,
-                image: 'img/pepsiBotella.jpg'
-            },
-            {
-                nombreProducto: 'Pepsi 2lts',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#4287f5',
-                precio: 45,
-                image: 'img/pepsiBotella.jpg'
-            }
-        ]
-    },
-    {
-        nombreEmpresa: 'Coco Baleadas',
-        descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing.',
-        color: '#04DADB',
-        logo: 'img/cocoBaleadas.jpg',
-        productos: [
-            {
-                nombreProducto: 'Baleada sencilla',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#04DADB',
-                precio: 15,
-                image: 'img/baleada.jpg'
-            },
-            {
-                nombreProducto: 'Baleada con todo',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#04DADB',
-                precio: 25,
-                image: 'img/baleada.jpg'
-            }
-        ]
-    },
-    {
-        nombreEmpresa: 'Coca Cola',
-        descripcion: 'Lorem ipsum dolor, sit amet consectetur adipisicing.',
-        color: '#E41E2B',
-        logo: 'img/cocaCola.jpg',
-        productos: [
-            {
-                nombreProducto: 'Coca Cola 500ml',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#E41E2B',
-                precio: 15,
-                image: 'img/cocaColaBotella.png'
-            },
-            {
-                nombreProducto: 'Coca Cola 2lts',
-                descripcionProducto: 'Lorem ipsum dolor sit, amet consectetur adipisicing.',
-                color: '#E41E2B',
-                precio: 45,
-                image: 'img/cocaColaBotella.png'
-            }
-        ]
-    },
-]
 var repartidores = [
     {
         nombreRepartidor: 'Juan',
@@ -109,38 +19,48 @@ var repartidores = [
         contrasenaRepartidor: 'esobrad'
     }
 ]
-var ordenes = [
-    {
-        codigo: 1,
-        nombreCliente: 'Juan',
-        descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing.',
-        direccion: 'Lorem, ipsum dolor.',
-        cantidad: 1,
-        total: 199,
-        estado: 'En el destino'
-    },
-    {
-        codigo: 2,
-        nombreCliente: 'Maria',
-        descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing.',
-        direccion: 'Lorem, ipsum dolor.',
-        cantidad: 1,
-        total: 199,
-        estado: 'En camino'
-    },
-    {
-        codigo: 3,
-        nombreCliente: 'Alejandra',
-        descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing.',
-        direccion: 'Lorem, ipsum dolor.',
-        cantidad: 1,
-        total: 199,
-        estado: 'En el origen'
-    }
-]
 
+var categorias;
+var productos;
+var productosEmpresa = [];
 var empresaSeleccionada;
 var productoSeleccionado;
+var categoriaSeleccionada;
+
+async function obtenerEmpresas() {
+    const result = await fetch('http://localhost:5005/empresas',
+        {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    );
+    empresas = await result.json();
+}
+obtenerEmpresas();
+
+async function obtenerCategorias() {
+    const result = await fetch('http://localhost:5005/categorias', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    categorias = await result.json();
+}
+obtenerCategorias();
+
+async function obtenerProductos() {
+    const result = await fetch('http://localhost:5005/productos', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    productos = await result.json();
+}
+obtenerProductos();
 
 function validarCampoVacio() {
 
@@ -164,6 +84,27 @@ function validarCampoVacio() {
     }
 }
 
+async function abrirAdministradores() {
+    let usuario = document.getElementById('usuarioAdmin').value;
+    let contrasena = document.getElementById('contrasenaAdmin').value;
+
+    const result = await fetch(`http://localhost:5005/administradores/${usuario}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    let adminBack = await result.json();
+
+    if (usuario == adminBack.usuarioAdministrador && contrasena == adminBack.contrasena) {
+        entrar();
+    } else {
+        document.getElementById('aviso').innerHTML = 'Usuario o contrasena incorrectos'
+    }
+
+}
+
 function entrar() {
     document.getElementById('paginaInicio').style.display = 'none';
     document.getElementById('paginaPrincipal').style.display = 'block';
@@ -172,14 +113,17 @@ function entrar() {
 function verEmpresas() {
     document.getElementById('paginaPrincipal').style.display = 'none';
     document.getElementById('paginaEmpresas').style.display = 'block';
+    document.getElementById('paginaAgregarEmpresa').style.display = 'none';
+    document.getElementById('editarEmpresa').style.display = 'none';
+    document.getElementById('administrarEmpresa').style.display = 'none';
     let divEmpresas = document.getElementById('empresas')
     divEmpresas.innerHTML = '';
 
-    empresas.forEach((empresa, indice) => {
-        divEmpresas.innerHTML += 
-        `
+    empresas.forEach((empresa) => {
+        divEmpresas.innerHTML +=
+            `
         <div class="col-md-3">
-            <div role="button" class="card mb-4 sombra" style="border: 2px solid ${empresa.color}" onclick="administrarEmpresa(${indice})">
+            <div role="button" class="card mb-4 sombra" style="border: 2px solid ${empresa.color}" onclick="administrarEmpresa('${empresa._id}')">
                 <img src="${empresa.logo}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">${empresa.nombreEmpresa}</h5>
@@ -199,13 +143,21 @@ function regresarAAdministrar() {
     document.getElementById('ordenesDisponibles').style.display = 'none';
 }
 
-function administrarEmpresa(indice) {
+async function administrarEmpresa(idEmpresa) {
     document.getElementById('administrarEmpresa').style.display = 'block';
     document.getElementById('paginaEmpresas').style.display = 'none';
-    empresaSeleccionada = empresas[indice];
 
-    document.getElementById('cartaEmpresa').innerHTML = 
-    `
+    const result = await fetch(`http://localhost:5005/empresas/${idEmpresa}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    empresaSeleccionada = await result.json();
+
+    document.getElementById('cartaEmpresa').innerHTML =
+        `
     <div class="card" style="border: 2px solid ${empresaSeleccionada.color}">
         <img src="${empresaSeleccionada.logo}" class="card-img-top" alt="${empresaSeleccionada.nombreEmpresa}">
         <div class="card-body">
@@ -233,9 +185,112 @@ function editarEmpresa() {
     document.getElementById('editarEmpresa').style.display = 'block';
 }
 
+async function actualizarEmpresa() {
+    let nvoNombre = document.getElementById('nombreEmpresa').value;
+    let nvaDescripcion = document.getElementById('descripcionEmpresa').value;
+    let nvoColor = document.getElementById('colorEmpresa').value;
+    let nvoLogo = document.getElementById('logoEmpresa').value;
+
+    const result = await fetch(`http://localhost:5005/empresas/${empresaSeleccionada._id}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idEmpresa: empresaSeleccionada.idEmpresa,
+            nombreEmpresa: nvoNombre,
+            descripcion: nvaDescripcion,
+            color: nvoColor,
+            logo: nvoLogo,
+            productos: empresaSeleccionada.productos
+        })
+    })
+
+    obtenerEmpresas().then(() => {
+        verEmpresas();
+    })
+}
+
 function agregarEmpresa() {
     document.getElementById('paginaAgregarEmpresa').style.display = 'block';
     document.getElementById('paginaEmpresas').style.display = 'none';
+    document.getElementById('categoriaEmpresaAgregar').value = null;
+}
+
+async function nuevaEmpresa() {
+    let nombreEmpresa = document.getElementById('nombreEmpresaAgregar').value;
+    let descripcionEmpresa = document.getElementById('descripcionEmpresaAgregar').value;
+    let colorEmpresa = document.getElementById('colorEmpresaAgregar').value;
+    let logoEmpresa = document.getElementById('logoEmpresaAgregar').value;
+    let idNvaempresa = empresas.length + 1;
+    let categoria = document.getElementById('categoriaEmpresaAgregar').value;
+
+    const result = await fetch('http://localhost:5005/empresas', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idEmpresa: idNvaempresa,
+            nombreEmpresa: nombreEmpresa,
+            descripcion: descripcionEmpresa,
+            color: colorEmpresa,
+            logo: logoEmpresa,
+            productos: []
+        })
+    })
+
+    const resultado = await fetch(`http://localhost:5005/categorias/${categoria}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    categoriaSeleccionada = await resultado.json();
+    categoriaSeleccionada.empresas.push(idNvaempresa);
+
+    actualizarCategoria();
+    obtenerEmpresas().then(() => {
+        verEmpresas();
+    });
+}
+
+async function actualizarCategoria() {
+    const result = await fetch(`http://localhost:5005/categorias/${categoriaSeleccionada._id}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idCategoria: categoriaSeleccionada.idCategoria,
+            nombreCategoria: categoriaSeleccionada.nombreCategoria,
+            icono: categoriaSeleccionada.icono,
+            empresas: categoriaSeleccionada.empresas
+        })
+    })
+}
+
+async function eliminarEmpresa() {
+    for (let i = 0; i < categorias.length; i++) {
+        let empresas = categorias[i].empresas;
+        const index = empresas.indexOf(empresaSeleccionada.idEmpresa);
+        if (index > -1) {
+            empresas.splice(index, 1);
+            categoriaSeleccionada = categorias[i];
+        }
+    }
+
+    const result = await fetch(`http://localhost:5005/empresas/${empresaSeleccionada._id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    actualizarCategoria();
+    obtenerEmpresas().then(() => {
+        verEmpresas();
+    });
 }
 
 function verEmpresasProductos() {
@@ -244,11 +299,11 @@ function verEmpresasProductos() {
     let divEmpresas = document.getElementById('empresasSeleccion')
     divEmpresas.innerHTML = '';
 
-    empresas.forEach((empresa, indice) => {
-        divEmpresas.innerHTML += 
-        `
+    empresas.forEach((empresa) => {
+        divEmpresas.innerHTML +=
+            `
         <div class="col-md-3">
-            <div role="button" class="card mb-4 sombra" style="border: 2px solid ${empresa.color}" onclick="verProductos(${indice})">
+            <div role="button" class="card mb-4 sombra" style="border: 2px solid ${empresa.color}" onclick="verProductos('${empresa._id}')">
                 <img src="${empresa.logo}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">${empresa.nombreEmpresa}</h5>
@@ -260,19 +315,35 @@ function verEmpresasProductos() {
     })
 }
 
-function verProductos(indice) {
+async function verProductos(idEmpresa) {
     document.getElementById('productosEmpresa').style.display = 'block';
     document.getElementById('empresasProductos').style.display = 'none';
-    empresaSeleccionada = empresas[indice];
+    document.getElementById('paginaAgregarProducto').style.display = 'none';
+    document.getElementById('editarProducto').style.display = 'none';
+    document.getElementById('administrarProducto').style.display = 'none';
 
+    const result = await fetch(`http://localhost:5005/empresas/${idEmpresa}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    empresaSeleccionada = await result.json();
+    obtenerProductosEmpresa().then(() => {
+        cargarProductos()
+    });
+}
+
+function cargarProductos() {
     let divProductos = document.getElementById('productos')
     divProductos.innerHTML = '';
 
-    empresaSeleccionada.productos.forEach((producto, indice) => {
-        divProductos.innerHTML += 
-        `
+    productosEmpresa.forEach((producto) => {
+        divProductos.innerHTML +=
+            `
         <div class="col-md-3">
-            <div role="button" class="card mb-4 sombra" style="border: 2px solid ${producto.color}" onclick="administrarProducto(${indice})">
+            <div role="button" class="card mb-4 sombra" style="border: 2px solid ${producto.color}" onclick="administrarProducto('${producto._id}')">
                 <img src="${producto.image}" class="card-img-top" alt="${producto.nombreProducto}">
                 <div class="card-body">
                     <h5 class="card-title">${producto.nombreProducto}</h5>
@@ -284,18 +355,39 @@ function verProductos(indice) {
     })
 }
 
+async function obtenerProductosEmpresa() {
+    productosEmpresa = []
+    for (let i = 0; i < empresaSeleccionada.productos.length; i++) {
+        const result = await fetch(`http://localhost:5005/productos/codigo-producto/${empresaSeleccionada.productos[i]}`, {
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const resultado = await result.json();
+        productosEmpresa.push(resultado);
+    }
+}
+
 function regresarAEmpresasProductos() {
     document.getElementById('empresasProductos').style.display = 'block';
     document.getElementById('productosEmpresa').style.display = 'none';
 }
 
-function administrarProducto(indice) {
-    productoSeleccionado = empresaSeleccionada.productos[indice]
+async function administrarProducto(idProducto) {
+
     document.getElementById('administrarProducto').style.display = 'block';
     document.getElementById('productosEmpresa').style.display = 'none';
 
-    document.getElementById('cartaProducto').innerHTML = 
-    `
+    const result = await fetch(`http://localhost:5005/productos/${idProducto}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    productoSeleccionado = await result.json();
+
+    document.getElementById('cartaProducto').innerHTML =
+        `
     <div class="card" style="border: 2px solid ${productoSeleccionado.color}">
         <img src="${productoSeleccionado.image}" class="card-img-top" alt="${productoSeleccionado.nombreProducto}" style="width: 500px">
         <div class="card-body">
@@ -318,12 +410,108 @@ function agregarProducto() {
     document.getElementById('paginaAgregarProducto').style.display = 'block';
 }
 
+async function nuevoProducto() {
+    let nombreProducto = document.getElementById('nombreProductoAgregar').value;
+    let descripcionProducto = document.getElementById('descripcionProductoAgregar').value;
+    let colorProducto = document.getElementById('colorProductoAgregar').value;
+    let precioProducto = document.getElementById('precioProductoAgregar').value;
+    let imagen = document.getElementById('logoProductoAgregar').value;
+    let idNvoProducto = productos.length + 1;
+
+    const result = await fetch('http://localhost:5005/productos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            idProducto: idNvoProducto,
+            nombreProducto: nombreProducto,
+            descripcionProducto: descripcionProducto,
+            color: colorProducto,
+            precio: precioProducto,
+            image: imagen
+        })
+    });
+
+    empresaSeleccionada.productos.push(idNvoProducto)
+
+    actualizarEmpresa();
+    obtenerEmpresas();
+    obtenerProductos().then(() => {
+        verProductos(empresaSeleccionada._id);
+    });
+
+}
+
+async function actualizarEmpresa() {
+    const result = await fetch(`http://localhost:5005/empresas/${empresaSeleccionada._id}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idEmpresa: empresaSeleccionada.idEmpresa,
+            nombreEmpresa: empresaSeleccionada.nombreEmpresa,
+            descripcion: empresaSeleccionada.descripcion,
+            color: empresaSeleccionada.color,
+            logo: empresaSeleccionada.logo,
+            productos: empresaSeleccionada.productos
+        })
+    });
+}
+
 function editarProducto() {
     document.getElementById('administrarProducto').style.display = 'none';
     document.getElementById('editarProducto').style.display = 'block';
 }
 
-function regresarAOpcionesProducto()  {
+async function actualizarProducto() {
+    let nvoNombre = document.getElementById('nombreProductoEditar').value;
+    let nvaDescripcion = document.getElementById('descripcionProductoEditar').value;
+    let nvoColor = document.getElementById('colorProductoEditar').value;
+    let nvoPrecio = document.getElementById('precioProductoEditar').value;
+    let nvoLogo = document.getElementById('logoProductoEditar').value;
+
+    const result = await fetch(`http://localhost:5005/productos/${productoSeleccionado._id}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idProducto: productoSeleccionado.idProducto,
+            nombreProducto: nvoNombre,
+            descripcionProducto: nvaDescripcion,
+            color: nvoColor,
+            precio: nvoPrecio,
+            image: nvoLogo
+        })
+    });
+
+    obtenerProductos().then(() => {
+        verProductos(empresaSeleccionada._id);
+    })
+}
+
+async function eliminarProducto() {
+    for (let i = 0; i < empresas.length; i++) {
+        let productos = empresas[i].productos;
+        const index = productos.indexOf(productoSeleccionado.idProducto);
+        if (index > -1) {
+            productos.splice(index, 1);
+            empresaSeleccionada = empresas[i];
+        }
+    }
+
+    const result = await fetch(`http://localhost:5005/productos/${productoSeleccionado._id}`, {
+        method: 'delete',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    actualizarEmpresa();
+    obtenerProductos().then(() => {
+        verProductos(empresaSeleccionada._id);
+    })
+}
+
+function regresarAOpcionesProducto() {
     document.getElementById('administrarProducto').style.display = 'block';
     document.getElementById('editarProducto').style.display = 'none';
 }
@@ -335,8 +523,8 @@ function verRepartidores() {
     document.getElementById('repartidores').innerHTML = '';
 
     repartidores.forEach(repartidor => {
-        document.getElementById('repartidores').innerHTML += 
-        `
+        document.getElementById('repartidores').innerHTML +=
+            `
         <div class="card mb-4 borde-color-primario border border-4 rounded-4">
                 <div class="card-body">
                     <div>
@@ -373,8 +561,8 @@ function verOrdenes() {
     divOrdenes.innerHTML = '';
 
     ordenes.forEach((orden, indice) => {
-        divOrdenes.innerHTML += 
-        `
+        divOrdenes.innerHTML +=
+            `
         <div role="button" class="card mb-4 sombra borde-color-primario border border-4 rounded-4" onclick="asignarOrden(${indice})">
                 <div class="card-body">
                     <h5 class="card-title mb-3">Orden ${orden.codigo}</h5>
@@ -396,8 +584,8 @@ function asignarOrden(indice) {
     document.getElementById('repartidoresDisponibles').innerHTML = '';
 
     repartidores.forEach(repartidor => {
-        document.getElementById('repartidoresDisponibles').innerHTML += 
-        `
+        document.getElementById('repartidoresDisponibles').innerHTML +=
+            `
         <div class="card mb-4 borde-color-primario border border-4 rounded-4" style="width: 342px">
                 <div class="card-body">
                     <div>
