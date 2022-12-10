@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "63939683519c89c6ecb99d75"
+  },
+  "idUsuario": 0,
+  "idRepartidor": 0,
+  "idProducto": 8,
+  "idOrdenes": 0,
+  "idEmpresas": 4,
+  "idAdministradores": 2
+}]

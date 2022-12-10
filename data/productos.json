@@ -1,0 +1,81 @@
+[{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c3334"
+  },
+  "idProducto": 1,
+  "nombreProducto": "Pizza Suprema",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#E51120",
+  "precio": 199,
+  "image": "../img/pizzaSuprema.jpg"
+},{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c3335"
+  },
+  "idProducto": 2,
+  "nombreProducto": "Pizza Regular",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#E51120",
+  "precio": 150,
+  "image": "../img/pizzaSuprema.jpg"
+},{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c3336"
+  },
+  "idProducto": 3,
+  "nombreProducto": "Pepsi 500ml",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#4287f5",
+  "precio": 15,
+  "image": "../img/pepsiBotella.png"
+},{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c3337"
+  },
+  "idProducto": 4,
+  "nombreProducto": "Pepsi 2lts",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#4287f5",
+  "precio": 45,
+  "image": "../img/pepsiBotella.png"
+},{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c3338"
+  },
+  "idProducto": 5,
+  "nombreProducto": "Baleada sencilla",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#04DADB",
+  "precio": 15,
+  "image": "../img/baleada.jpg"
+},{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c3339"
+  },
+  "idProducto": 6,
+  "nombreProducto": "Baleada con todo",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#04DADB",
+  "precio": 25,
+  "image": "../img/baleada.jpg"
+},{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c333a"
+  },
+  "idProducto": 7,
+  "nombreProducto": "Coca Cola 500ml",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#E41E2B",
+  "precio": 15,
+  "image": "../img/cocaColaBotella.png"
+},{
+  "_id": {
+    "$oid": "63912a6bcc5a7cb8769c333b"
+  },
+  "idProducto": 8,
+  "nombreProducto": "Coca Cola 2lts",
+  "descripcionProducto": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
+  "color": "#E41E2B",
+  "precio": 45,
+  "image": "../img/cocaColaBotella.png"
+}]

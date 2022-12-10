@@ -1,0 +1,20 @@
+[
+  {
+    "nombre": "Mario",
+    "apellido": "Perez",
+    "usuario": "Marito01",
+    "contrasena": "1234",
+    "direccion": "",
+    "metodoPago": "",
+    "ordenes": []
+  },
+  {
+    "nombre": "Violet",
+    "apellido": "Evergarden",
+    "usuario": "EverViolet01",
+    "contrasena": "1234",
+    "direccion": "",
+    "metodoPago": "",
+    "ordenes": []
+  }
+]

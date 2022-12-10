@@ -1,0 +1,53 @@
+[{
+  "_id": {
+    "$oid": "63912a0dcc5a7cb8769c3330"
+  },
+  "idEmpresa": 1,
+  "nombreEmpresa": "Pizza Hut",
+  "descripcion": "Lorem ipsum dolor, sit amet consectetur adipisicing.",
+  "color": "#E51120",
+  "logo": "../img/pizzaHut.jpg",
+  "productos": [
+    1,
+    2
+  ]
+},{
+  "_id": {
+    "$oid": "63912a0dcc5a7cb8769c3331"
+  },
+  "idEmpresa": 2,
+  "nombreEmpresa": "Pepsi",
+  "descripcion": "Lorem ipsum dolor, sit amet consectetur adipisicing.",
+  "color": "#4287f5",
+  "logo": "../img/pepsi.jpg",
+  "productos": [
+    3,
+    4
+  ]
+},{
+  "_id": {
+    "$oid": "63912a0dcc5a7cb8769c3332"
+  },
+  "idEmpresa": 3,
+  "nombreEmpresa": "Coco Baleadas",
+  "descripcion": "Lorem ipsum dolor, sit amet consectetur adipisicing.",
+  "color": "#04DADB",
+  "logo": "../img/cocoBaleadas.jpg",
+  "productos": [
+    5,
+    6
+  ]
+},{
+  "_id": {
+    "$oid": "63912a0dcc5a7cb8769c3333"
+  },
+  "idEmpresa": 4,
+  "nombreEmpresa": "Coca Cola",
+  "descripcion": "Lorem ipsum dolor, sit amet consectetur adipisicing.",
+  "color": "#E41E2B",
+  "logo": "../img/cocaCola.jpg",
+  "productos": [
+    7,
+    8
+  ]
+}]
