@@ -6,7 +6,10 @@ var empresaSeleccionada;
 var productoSeleccionado;
 var categoriaSeleccionada;
 var repartidoresPendientes;
-var repartidores = [];
+var repartidores;
+var idscolecciones = '63939683519c89c6ecb99d75';
+var ids;
+var ordenes;
 
 async function obtenerEmpresas() {
     const result = await fetch('http://localhost:5005/empresas',
@@ -20,6 +23,29 @@ async function obtenerEmpresas() {
     empresas = await result.json();
 }
 obtenerEmpresas();
+
+async function obtenerOrdenes() {
+    const result = await fetch('http://localhost:5005/ordenes', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    ordenes = await result.json();
+}
+obtenerOrdenes();
+
+async function obtenerIdscolecciones() {
+    const result = await fetch(`http://localhost:5005/idscolecciones/${idscolecciones}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    ids = await result.json();
+}
+obtenerIdscolecciones();
 
 async function obtenerRepartidoresPendientes() {
     const result = await fetch('http://localhost:5005/repartidorespendientes', {
@@ -41,6 +67,7 @@ async function obtenerRepartidores() {
     });
     repartidores = await resutl.json();
 }
+obtenerRepartidores()
 
 async function obtenerCategorias() {
     const result = await fetch('http://localhost:5005/categorias', {
@@ -187,12 +214,20 @@ function editarEmpresa() {
     document.getElementById('editarEmpresa').style.display = 'block';
 }
 
-async function actualizarEmpresa() {
+document.getElementById('btnActualizarEmpresa').addEventListener('click', function() {
     let nvoNombre = document.getElementById('nombreEmpresa').value;
     let nvaDescripcion = document.getElementById('descripcionEmpresa').value;
     let nvoColor = document.getElementById('colorEmpresa').value;
-    let nvoLogo = document.getElementById('logoEmpresa').value;
+    let nvoLogo = document.getElementById('logoEmpresa').value; 
+    
+    actualizar(nvoNombre, nvaDescripcion, nvoLogo, nvoColor);
 
+    obtenerEmpresas().then(() => {
+        verEmpresas();
+    })
+})
+
+async function actualizar(nvoNombre, nvaDescripcion, nvoLogo, nvoColor) {
     const result = await fetch(`http://localhost:5005/empresas/${empresaSeleccionada._id}`, {
         method: 'put',
         headers: {
@@ -207,10 +242,6 @@ async function actualizarEmpresa() {
             productos: empresaSeleccionada.productos
         })
     })
-
-    obtenerEmpresas().then(() => {
-        verEmpresas();
-    })
 }
 
 function agregarEmpresa() {
@@ -224,7 +255,6 @@ async function nuevaEmpresa() {
     let descripcionEmpresa = document.getElementById('descripcionEmpresaAgregar').value;
     let colorEmpresa = document.getElementById('colorEmpresaAgregar').value;
     let logoEmpresa = document.getElementById('logoEmpresaAgregar').value;
-    let idNvaempresa = empresas.length + 1;
     let categoria = document.getElementById('categoriaEmpresaAgregar').value;
 
     const result = await fetch('http://localhost:5005/empresas', {
@@ -233,7 +263,7 @@ async function nuevaEmpresa() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            idEmpresa: idNvaempresa,
+            idEmpresa: ids.idEmpresas + 1,
             nombreEmpresa: nombreEmpresa,
             descripcion: descripcionEmpresa,
             color: colorEmpresa,
@@ -242,6 +272,21 @@ async function nuevaEmpresa() {
         })
     })
 
+    const resPut = await fetch(`http://localhost:5005/idscolecciones/${idscolecciones}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idUsuario: ids.idUsuario,
+            idRepartidor: ids.idRepartidor,
+            idProducto: ids.idProducto,
+            idOrdenes: ids.idOrdenes,
+            idEmpresas: ids.idEmpresas + 1,
+            idAdministradores: ids.idAdministradores
+        })
+    });
+
     const resultado = await fetch(`http://localhost:5005/categorias/${categoria}`, {
         method: 'GET',
         headers: {
@@ -249,8 +294,9 @@ async function nuevaEmpresa() {
         }
     });
     categoriaSeleccionada = await resultado.json();
-    categoriaSeleccionada.empresas.push(idNvaempresa);
+    categoriaSeleccionada.empresas.push(ids.idEmpresas + 1);
 
+    obtenerIdscolecciones();
     actualizarCategoria();
     obtenerEmpresas().then(() => {
         verEmpresas();
@@ -418,13 +464,12 @@ async function nuevoProducto() {
     let colorProducto = document.getElementById('colorProductoAgregar').value;
     let precioProducto = document.getElementById('precioProductoAgregar').value;
     let imagen = document.getElementById('logoProductoAgregar').value;
-    let idNvoProducto = productos.length + 1;
 
     const result = await fetch('http://localhost:5005/productos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            idProducto: idNvoProducto,
+            idProducto: ids.idProducto + 1,
             nombreProducto: nombreProducto,
             descripcionProducto: descripcionProducto,
             color: colorProducto,
@@ -433,8 +478,24 @@ async function nuevoProducto() {
         })
     });
 
-    empresaSeleccionada.productos.push(idNvoProducto)
+    const resPut = await fetch(`http://localhost:5005/idscolecciones/${idscolecciones}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idUsuario: ids.idUsuario,
+            idRepartidor: ids.idRepartidor,
+            idProducto: ids.idProducto + 1,
+            idOrdenes: ids.idOrdenes,
+            idEmpresas: ids.idEmpresas,
+            idAdministradores: ids.idAdministradores
+        })
+    });
 
+    empresaSeleccionada.productos.push(ids.idProducto + 1)
+
+    obtenerIdscolecciones();
     actualizarEmpresa();
     obtenerEmpresas();
     obtenerProductos().then(() => {
@@ -556,7 +617,6 @@ function verRepartidores() {
 }
 
 async function aprobarRepartidor(idRepartidor) {
-    let idNvoRepartidor = repartidores.length + 1;
     const result = await fetch(`http://localhost:5005/repartidorespendientes/${idRepartidor}`, {
         method: 'GET',
         headers: {
@@ -571,7 +631,7 @@ async function aprobarRepartidor(idRepartidor) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            idRepartidor: idNvoRepartidor,
+            idRepartidor: ids.idRepartidor + 1,
             nombreRepartidor: repartidor.nombre,
             apellidoRepartidor: repartidor.apellido,
             usuarioRepartidor: repartidor.usuario,
@@ -581,6 +641,21 @@ async function aprobarRepartidor(idRepartidor) {
         })
     })
 
+    const resPut = await fetch(`http://localhost:5005/idscolecciones/${idscolecciones}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idUsuario: ids.idUsuario,
+            idRepartidor: ids.idRepartidor + 1,
+            idProducto: ids.idProducto,
+            idOrdenes: ids.idOrdenes,
+            idEmpresas: ids.idEmpresas,
+            idAdministradores: ids.idAdministradores
+        })
+    });
+
     const resdelete = await fetch(`http://localhost:5005/repartidorespendientes/${idRepartidor}`, {
         method: 'delete',
         headers: {
@@ -588,6 +663,7 @@ async function aprobarRepartidor(idRepartidor) {
         }
     });
 
+    obtenerIdscolecciones();
     obtenerRepartidores();
     obtenerRepartidoresPendientes().then(() => {
         verRepartidores();
@@ -611,20 +687,20 @@ async function rechazarRepartidor(idRepartidor) {
 function verOrdenes() {
     document.getElementById('paginaPrincipal').style.display = 'none';
     document.getElementById('ordenesDisponibles').style.display = 'block';
+    document.getElementById('asignarOrden').style.display = 'none';
 
     let divOrdenes = document.getElementById('ordenes')
     divOrdenes.innerHTML = '';
 
-    ordenes.forEach((orden, indice) => {
+    ordenes.forEach((orden) => {
         divOrdenes.innerHTML +=
             `
-        <div role="button" class="card mb-4 sombra borde-color-primario border border-4 rounded-4" onclick="asignarOrden(${indice})">
+        <div role="button" class="card mb-4 sombra borde-color-primario border border-4 rounded-4" onclick="asignarOrden('${orden._id}')">
                 <div class="card-body">
-                    <h5 class="card-title mb-3">Orden ${orden.codigo}</h5>
+                    <h5 class="card-title mb-3">Orden ${orden.idOrden}</h5>
                     <p class="card-text mb-2"><strong>Cliente: </strong>${orden.nombreCliente}</p>
                     <p class="card-text mb-2"><strong>Descripcion: </strong>${orden.descripcion}</p>
                     <p class="card-text mb-2"><strong>Direccion: </strong>${orden.direccion}</p>
-                    <p class="card-text mb-2"><strong>Cantidad: </strong>${orden.cantidad}</p>
                     <p class="card-text mb-2"><strong>Total: </strong>lps. ${orden.total}</p>
                 </div>
             </div> 
@@ -632,7 +708,7 @@ function verOrdenes() {
     })
 }
 
-function asignarOrden(indice) {
+function asignarOrden(idOrden) {
     document.getElementById('asignarOrden').style.display = 'block';
     document.getElementById('ordenesDisponibles').style.display = 'none';
 
@@ -654,11 +730,59 @@ function asignarOrden(indice) {
                     </div>
 
                     <div class="text-center mt-4">
-                        <button class="btn-mediano fondo-verde color-texto-blanco">Asignar orden</button>
+                        <button class="btn-mediano fondo-verde color-texto-blanco" onclick="asignar('${idOrden}', '${repartidor._id}')">Asignar orden</button>
                     </div>
                 </div>
             </div>
         `
+    })
+}
+
+async function asignar(idOrden, idRepartidor) {
+
+    const res = await fetch(`http://localhost:5005/ordenes/${idOrden}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    let ordenSeleccionada = await res.json();
+
+    const resrep = await fetch(`http://localhost:5005/repartidores/${idRepartidor}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    let repartidorSeleccionado = await resrep.json();
+
+
+    repartidorSeleccionado.ordenesTomadas.push(ordenSeleccionada);
+    const resultado = await fetch(`http://localhost:5005/ordenes/${idOrden}`, {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const result = await fetch(`http://localhost:5005/repartidores/${idRepartidor}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            idRepartidor: repartidorSeleccionado.idRepartidor,
+            nombreRepartidor: repartidorSeleccionado.nombreRepartidor,
+            apellidoRepartidor: repartidorSeleccionado.apellidoRepartidor,
+            usuarioRepartidor: repartidorSeleccionado.usuarioRepartidor,
+            contrasenaRepartidor: repartidorSeleccionado.contrasenaRepartidor,
+            ordenesTomadas: repartidorSeleccionado.ordenesTomadas,
+            ordenesEntregadas: repartidorSeleccionado.ordenesEntregadas
+        })
+    })
+
+    obtenerOrdenes().then(() => {
+        verOrdenes();
     })
 }
 
